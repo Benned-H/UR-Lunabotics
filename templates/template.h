@@ -1,7 +1,6 @@
 // Author: Benned Hedegaard
 
-#ifndef PACKAGE_NAME_H
-#define PACKAGE_NAME_H
+#pragma once
 
 // Include all (standard) library dependencies, e.g.
 #include <iostream>
@@ -13,29 +12,26 @@
 #include "ros/ros.h"
 #include "package_name/DataType.h" // etc.
 
-class ClassName {
+class ClassName{
+public: // These data members can be accessed by other classes.
+	
+  ClassName(); // Constructor; could have input variables.
+  virtual ~ClassName() = default; // Default deconstructor
 
-	public: // These data members can be accessed by other classes.
+  // Declare message handling functions for the class.
+  void handleMessageType( const package_name::DataType::ConstPtr& msg );
+		
+  // Declare any ROS publishers.
+  ros::Publisher datatype_pub;
+		
+  double member_variable; // e.g. some hyperparameter for the class.
 	
-		ClassName(); // Constructor; could have input variables.
-		virtual ~ClassName(); // Deconstructor
+protected: // These data members are inaccessible outside the class.
+
+  // Include any internal functions the class needs.
+  void drawCircle( double radius ); // e.g. for a GUI
 		
-		// Declare message handling functions for the class.
-		void handleMessageType( const package_name::DataType::ConstPtr& msg );
-		
-		// Declare any ROS publishers.
-		ros::Publisher datatype_pub;
-		
-		double CONSTANT_VALUE; // e.g. some hyperparameter for the class.
-		
-	protected: // These data members are inaccessible outside the class.
-	
-		// Include any internal functions the class needs.
-		void drawCircle( double radius ); // e.g. for a GUI
-		
-		// Also include private member variables. Start names with underscores.
-		package_name::DataType _data;
-		bool _condition;
+  // Also include private member variables.
+  package_name::DataType data;
+  bool condition;
 };
-
-#endif /* PACKAGE_NAME_H */

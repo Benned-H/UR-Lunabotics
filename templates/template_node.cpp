@@ -13,8 +13,8 @@
 // Make sure to include the package's header file if you use its class.
 #include "package_name/package.h"
 
-int main( int argc, char* argv[] ) {
-	ClassName obj; // Declare an instance of the relevant class, if needed.
+int main( int argc, char* argv[] ){
+	ClassName obj( a, b, c ); // Declare an instance of the relevant class, if needed.
 	// Give the necessary inputs if the class has any.
 	
 	ros::init( argc, argv, "node_name" ); // e.g. "planner_node"
@@ -61,13 +61,13 @@ int main( int argc, char* argv[] ) {
 	ros::Rate timer(frequency);
 	
 	// Keeps looping as long as the node is running.
-	while ( ros::ok() ) {
-		ros::spinOnce(); // Calls all waiting callbacks, i.e. handles messages.
-		obj.step( 1.0 / frequency ); // Advance the class' internal simulation/belief.
-		datatype_pub.publish(data); // data could be a class member variable.
-		timer.sleep(); // Waits rest of cycle to assure proper hz
-	}
+  while( ros::ok() ){
+    ros::spinOnce(); // Calls all waiting callbacks, i.e. handles messages.
+    obj.step( 1.0 / frequency ); // Advance the class' internal simulation/belief.
+    datatype_pub.publish(data); // data could be a class member variable.
+    timer.sleep(); // Waits rest of cycle to assure proper hz
+  }
 	
-	// In all cases, the following exits the execution of the node:
-	return 0;
+  // In all cases, the following exits the execution of the node:
+  return 0;
 }
