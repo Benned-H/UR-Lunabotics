@@ -105,7 +105,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 	INCLUDE_DIRS include
-	LIBRARIES purepursuit
+	LIBRARIES pfc
 #  CATKIN_DEPENDS geometry_msgs planner roscpp
 #  DEPENDS system_lib
 )
@@ -122,14 +122,14 @@ include_directories(
 )
 
 ## Declare a C++ library
-add_library(purepursuit
-	src/${PROJECT_NAME}/purepursuit.cpp
+add_library(pfc
+	src/${PROJECT_NAME}/pure-pursuit.cpp
 )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-add_dependencies(purepursuit ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(pfc ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
@@ -149,7 +149,7 @@ add_dependencies(pure_pursuit_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_
 ## Specify libraries to link a library or executable target against
 target_link_libraries(pure_pursuit_node
 	${catkin_LIBRARIES}
-	purepursuit
+	pfc
 )
 
 #############

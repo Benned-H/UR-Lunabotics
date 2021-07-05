@@ -1,8 +1,9 @@
 // Author: Benned Hedegaard
 
-#include "pfc/purepursuit.h"
+#include "pfc/pure-pursuit.h"
 
-int main( int argc, char* argv[] ) {
+int main( int argc, char* argv[] ){
+  // TODO - Move arguments to an external launch file
 	double lookahead_distance = 0.5; // Meters
 	double turn_angle = M_PI/4.0; // Beyond this heading difference, will turn-in-place.
 	double default_vx = 0.5; // Meters per second

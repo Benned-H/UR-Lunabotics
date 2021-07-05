@@ -1,53 +1,48 @@
 // Author: Benned Hedegaard
 
-#include "pfc/purepursuit.h"
+#include "pfc/pure-pursuit.h"
 
-PurePursuit::PurePursuit( const double& lookahead, const double& turn_angle, const double& forward_v, const double& turning_w ) {
-	LOOKAHEAD = lookahead;
-	TURNING_ANGLE = turn_angle;
-	DEFAULT_V = fabs(forward_v); // Ensure these are positive just in case
-	DEFAULT_W = fabs(turning_w);
-	hasOdom = false;
-	hasPath = false;
+PurePursuit::PurePursuit( const double& lookaheadArg, const double& turningAngleArg, const double& forward_v, const double& turning_w ) :
+  LOOKAHEAD( lookaheadArg ), TURNING_ANGLE( turningAngleArg ), DEFAULT_V( fabs( forward_v ) ), DEFAULT_W( fabs( turning_w ) ),
+  hasOdom( false ), hasPath( false ){
+
 }
 
-PurePursuit::~PurePursuit() {} // Deconstructor
-
-void PurePursuit::handleOdom( const nav_msgs::Odometry::ConstPtr& msg ) {
-	_odom = *msg;
+void PurePursuit::handleOdom( const nav_msgs::Odometry::ConstPtr& msg ){
+	odom = *msg;
 	hasOdom = true;
-	if (hasPath) {
+	if( hasPath ){
 		purePursuit();
 	}
 }
 
-void PurePursuit::handlePath( const planner::Path::ConstPtr& msg ) {
-	if ( (msg->points).size() == 0 ) {
-		return; // Ignore empty plans
-	}
+void PurePursuit::handlePath( const planner::Path::ConstPtr& msg ){
+  if( (msg->points).size() == 0 ){
+    return; // Ignore empty plans
+  }
 	
-	_path = *msg;
-	hasPath = true;
+  path = *msg;
+  hasPath = true;
 	
-	if (hasOdom) {
-		purePursuit();
-	}
+  if( hasOdom ){
+    purePursuit();
+  }
 }
 
 // Formula from Wikipedia for now. More quaternion understanding is needed.
 // TODO - Move this to a common package, understand its derivation
-double PurePursuit::quat_to_yaw( const geometry_msgs::Quaternion& q ) {
+double PurePursuit::quat_to_yaw( const geometry_msgs::Quaternion& q ){
 	return atan2(2.0*(q.w*q.z + q.x*q.y), q.w*q.w+q.x*q.x-q.y*q.y-q.z*q.z);
 }
 
 // TODO - Move this to a common package, pass by const reference
-double euclidean( double x1, double y1, double x2, double y2 ) {
+double euclidean( double x1, double y1, double x2, double y2 ){
 	return sqrt( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) );
 }
 
 // Compute the goal point for the given robot pose and planned path.
 // Returns the robot pose if the search fails.
-geometry_msgs::Point PurePursuit::getGoalPoint( const geometry_msgs::Pose& pose, const planner::Path& path ) {
+geometry_msgs::Point PurePursuit::getGoalPoint( const geometry_msgs::Pose& pose, const planner::Path& path ){
 	// 1. Find current location of the robot.
 	double xr = pose.position.x;
 	double yr = pose.position.y;
@@ -56,9 +51,9 @@ geometry_msgs::Point PurePursuit::getGoalPoint( const geometry_msgs::Pose& pose,
 	int closest_path_index = 0;
 	double min_dist = euclidean( xr, yr, path.points[0].x, path.points[0].y );
 	
-	for (int i = 1; i < path.points.size(); i++) {
+	for( int i = 1; i < path.points.size(); i++ ){
 		double dist_i = euclidean( xr, yr, path.points[i].x, path.points[i].y );
-		if (dist_i < min_dist) {
+		if( dist_i < min_dist ){
 			closest_path_index = i;
 			min_dist = dist_i;
 		}
@@ -67,12 +62,12 @@ geometry_msgs::Point PurePursuit::getGoalPoint( const geometry_msgs::Pose& pose,
 	// If the closest path point is the last, just return that.
 	geometry_msgs::Point last_point =  path.points.back();
 	int last_index = path.points.size() - 1;
-	if ( path.points[closest_path_index] == last_point ) {
+	if( path.points[closest_path_index] == last_point ){
 		return last_point;
 	}
 	
 	// Also target the final path point if we're close enough.
-	if ( euclidean(xr, yr, last_point.x, last_point.y) < LOOKAHEAD ) {
+	if( euclidean( xr, yr, last_point.x, last_point.y ) < LOOKAHEAD ){
 		return last_point;
 	}
 	
@@ -80,7 +75,7 @@ geometry_msgs::Point PurePursuit::getGoalPoint( const geometry_msgs::Pose& pose,
 	// ever the final point in the path, the search has failed.
 	geometry_msgs::Point output; // Just create it once.
 	int curr_index = closest_path_index;
-	while ( curr_index != last_index ) {
+	while( curr_index != last_index ){
 		double x1 = path.points[curr_index].x;
 		double y1 = path.points[curr_index].y;
 		double x2 = path.points[curr_index+1].x;
@@ -92,7 +87,7 @@ geometry_msgs::Point PurePursuit::getGoalPoint( const geometry_msgs::Pose& pose,
 		double s = b*b - 4.0*a*c;
 		
 		// Circle doesn't intersect the line formed by the path.
-		if (s < 0.0) {
+		if( s < 0.0 ){
 			curr_index++;
 			continue;
 		}
@@ -106,12 +101,12 @@ geometry_msgs::Point PurePursuit::getGoalPoint( const geometry_msgs::Pose& pose,
 		double xt2 = x1 + t2*(x2-x1);
 		double yt2 = y1 + t2*(y2-y1);
 		
-		if ( 0.0 < t1 && t1 < 1.0 ) { // t1 is in the segment!
-			if ( 0.0 < t2 && t2 < 1.0 ) { // t2 also in the segment!
+		if( 0.0 < t1 && t1 < 1.0 ){ // t1 is in the segment!
+			if( 0.0 < t2 && t2 < 1.0 ){ // t2 also in the segment!
 				double d1 = euclidean(x2, y2, xt1, yt1);
 				double d2 = euclidean(x2, y2, xt2, yt2);
 				
-				if (d1 < d2) { // Return (xt1, yt1)
+				if( d1 < d2 ){ // Return (xt1, yt1)
 					output.x = xt1;
 					output.y = yt1;
 					return output;
@@ -125,7 +120,7 @@ geometry_msgs::Point PurePursuit::getGoalPoint( const geometry_msgs::Pose& pose,
 				output.y = yt1;
 				return output;
 			}
-		} else if ( 0.0 < t2 && t2 < 1.0 ) { // Return (xt2, yt2)
+		} else if( 0.0 < t2 && t2 < 1.0 ){ // Return (xt2, yt2)
 			output.x = xt2;
 			output.y = yt2;
 			return output;
@@ -141,11 +136,11 @@ geometry_msgs::Point PurePursuit::getGoalPoint( const geometry_msgs::Pose& pose,
 
 // Formats an angle to be between -PI and PI.
 // TODO - Move to common
-double format_angle( double angle ) {
-	while (angle < -M_PI) {
+double format_angle( double angle ){
+	while( angle < -M_PI ){
 		angle += 2.0*M_PI;
 	}
-	while (angle > M_PI) {
+	while( angle > M_PI ){
 		angle -= 2.0*M_PI;
 	}
 	return angle;
@@ -153,12 +148,12 @@ double format_angle( double angle ) {
 
 // Run pure pursuit using the current stored pose and path.
 // Publishes motion command using the command_pub member Publisher.
-void PurePursuit::purePursuit() {
-	geometry_msgs::Point goal = getGoalPoint( _odom.pose.pose, _path );
+void PurePursuit::purePursuit(){
+	geometry_msgs::Point goal = getGoalPoint( odom.pose.pose, path );
 	
-	double xr = _odom.pose.pose.position.x;
-	double yr = _odom.pose.pose.position.y;
-	double heading = quat_to_yaw( _odom.pose.pose.orientation );
+	double xr = odom.pose.pose.position.x;
+	double yr = odom.pose.pose.position.y;
+	double heading = quat_to_yaw( odom.pose.pose.orientation );
 	
 	double goal_distance = euclidean( xr, yr, goal.x, goal.y );
 	
@@ -167,11 +162,11 @@ void PurePursuit::purePursuit() {
 	command.angular.z = 0.0;
 	
 	// If we're already close, send a 'STOP' command.
-	if ( goal_distance < 0.03 ) { // TODO - Move to external parameter
+	if( goal_distance < 0.03 ){ // TODO - Move to external parameter
 		goal.x = xr;
 		goal.y = yr;
-		goal_point_pub.publish(goal);
-		command_pub.publish(command);
+		goal_point_pub.publish( goal );
+		command_pub.publish( command );
 		return;
 	}
 	
@@ -179,8 +174,8 @@ void PurePursuit::purePursuit() {
 	double global_heading = atan2( goal.y - yr, goal.x - xr );
 	double relative_heading = format_angle( global_heading - heading );
 	
-	if ( fabs(relative_heading) > TURNING_ANGLE ) { // Turn in place.
-		if ( relative_heading < 0.0 ) { // Turn right.
+	if( fabs(relative_heading) > TURNING_ANGLE ){ // Turn in place.
+		if( relative_heading < 0.0 ){ // Turn right.
 			command.angular.z = -DEFAULT_W;
 		} else { // Turn left.
 			command.angular.z = DEFAULT_W;
@@ -196,4 +191,3 @@ void PurePursuit::purePursuit() {
 	goal_point_pub.publish(goal);
 	command_pub.publish(command);
 }
-		
