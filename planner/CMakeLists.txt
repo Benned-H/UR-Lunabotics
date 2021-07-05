@@ -124,7 +124,7 @@ include_directories(
 
 ## Declare a C++ library
 add_library(planner
-	src/planner/gridplanner.cpp
+	src/planner/grid-planner.cpp
 	src/planner/node.cpp
 )
 

@@ -1,9 +1,9 @@
 // Author: Benned Hedegaard
 
-#include "planner/gridplanner.h"
+#include "planner/grid-planner.h"
 #include "mapper/occmapper.h"
 
-int main( int argc, char* argv[] ) {
+int main( int argc, char* argv[] ){
 	
 	double planner_discretization  = 0.1;
 	
@@ -11,8 +11,8 @@ int main( int argc, char* argv[] ) {
 	int map_width = 101; // Number of cells
 	int map_height = 101;
 	
-    // Center of each cell will align with planning grid nodes
-	geometry_msgs::Pose origin;
+  // Center of each cell will align with planning grid nodes
+  geometry_msgs::Pose origin;
 	origin.position.x = -5.05;
 	origin.position.y = -5.05;
 	origin.position.z = 0.0;
@@ -21,16 +21,15 @@ int main( int argc, char* argv[] ) {
 	origin.orientation.z = 0.0;
 	origin.orientation.w = 1.0;
 
-	double obstacle_width = 0.2; // Presumed width of an obstacle
+  double obstacle_width = 0.2; // Presumed width of an obstacle
 	double threshold = 0.3; // Above this value, cell is assumed occupied
 	
 	double p0 = 0.3; // Prior probability a cell is occupied
 	double p_free = 0.05; // Probability a cell is occupied given laser passes through it
 	double p_occ = 0.95; // Probability a cell is occupied given laser hits in it
 	
-	OccMapper mapper( map_resolution, map_width, map_height, origin, obstacle_width, threshold, p0, p_free, p_occ );
-	
-	GridPlanner planner( planner_discretization, mapper ); // TODO - Obviously should only pass a CostMap
+  OccMapper mapper( map_resolution, map_width, map_height, origin, obstacle_width, threshold, p0, p_free, p_occ );
+  GridPlanner planner( planner_discretization, mapper ); // TODO - Obviously should only pass a CostMap
 	
 	ros::init( argc, argv, "planner_node" );
 	ros::NodeHandle node_handle;

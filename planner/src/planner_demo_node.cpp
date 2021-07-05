@@ -7,7 +7,7 @@
 #include "planner/Query.h"
 #include "geometry_msgs/Point.h"
 
-int main( int argc, char* argv[] ) {
+int main( int argc, char* argv[] ){
 	ros::init( argc, argv, "planner_demo_node" );
 	ros::NodeHandle node_handle;
 	
@@ -26,7 +26,7 @@ int main( int argc, char* argv[] ) {
 		
 	double frequency = 5.0; // Desired rate of the timer in hz
 	ros::Rate timer( frequency );
-	while ( ros::ok() ) {
+	while( ros::ok() ){
 		goal.x = r*std::cos(theta);
 		goal.y = r*std::sin(theta);
 		
