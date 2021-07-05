@@ -3,7 +3,7 @@
 #include "ros/ros.h"
 #include "simulator/simulator.h"
 
-int main( int argc, char* argv[] ) {
+int main( int argc, char* argv[] ){
 	Simulator sim;
 	
 	ros::init( argc, argv, "simulator_node" );
@@ -18,10 +18,10 @@ int main( int argc, char* argv[] ) {
 	sleep(1); // Wait 1 second; gives time for ROS connections to be made.
 		
 	double frequency = 20.0; // Desired rate of the timer in hz
-	ros::Rate timer(frequency);
+	ros::Rate timer( frequency );
 	
 	// Keeps looping as long as the node is running.
-	while ( ros::ok() ) {
+	while( ros::ok() ){
 		ros::spinOnce(); // Calls all waiting callbacks, i.e. handles messages.
 		sim.step( 1.0 / frequency ); // Advance the class' simulation/belief.
 		odom_pub.publish( sim.getOdometry() );
