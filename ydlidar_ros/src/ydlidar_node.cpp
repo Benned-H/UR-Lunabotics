@@ -6,9 +6,6 @@
  *  http://www.ydlidar.com
  * 
  */
- 
-// Revisions by Benned Hedegaard
-// Last revised 5/25/2020
 
 #include "ros/ros.h"
 #include "sensor_msgs/LaserScan.h"
@@ -22,23 +19,27 @@ using namespace ydlidar;
 
 #define ROSVerision "1.4.6"
 
-std::vector<float> split(const std::string &s, char delim)
-{
-	std::vector<float> elems;
-	std::stringstream ss(s);
-	std::string number;
-	while (std::getline(ss, number, delim))
-	{
-		elems.push_back(atof(number.c_str()));
-	}
-	return elems;
+
+std::vector<float> split(const std::string &s, char delim) {
+    std::vector<float> elems;
+    std::stringstream ss(s);
+    std::string number;
+    while(std::getline(ss, number, delim)) {
+        elems.push_back(atof(number.c_str()));
+    }
+    return elems;
 }
 
 
-int main(int argc, char * argv[])
-{
+int main(int argc, char * argv[]) {
     ros::init(argc, argv, "ydlidar_node"); 
-    fflush(stdout);
+/*    printf("__   ______  _     ___ ____    _    ____  \n");
+    printf("\\ \\ / /  _ \\| |   |_ _|  _ \\  / \\  |  _ \\ \n");
+    printf(" \\ V /| | | | |    | || | | |/ _ \\ | |_) | \n");
+    printf("  | | | |_| | |___ | || |_| / ___ \\|  _ <  \n");
+    printf("  |_| |____/|_____|___|____/_/   \\_\\_| \\_\\ \n");
+    printf("\n");
+    fflush(stdout);*/
   
     std::string port;
     int baudrate=230400;
@@ -48,7 +49,7 @@ int main(int argc, char * argv[])
     double angle_max,angle_min;
     result_t op_result;
     std::string list;
-    std::vector<float> ignore_array;
+    std::vector<float> ignore_array;  
     double max_range, min_range;
     double frequency;
     int samp_rate = 5;
