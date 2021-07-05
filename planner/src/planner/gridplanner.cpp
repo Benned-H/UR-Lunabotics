@@ -17,7 +17,7 @@ void GridPlanner::handleQuery( const planner::Query::ConstPtr& msg ) {
 }
 
 void GridPlanner::handleMap(const nav_msgs::OccupancyGrid::ConstPtr& msg) {
-    cost_map._map = *msg;
+    cost_map.map = *msg;
 }
 
 // TODO - Common package/file

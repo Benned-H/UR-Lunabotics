@@ -2,7 +2,8 @@
 
 #include "mapper/occmapper.h"
 
-int main( int argc, char* argv[] ) {
+int main( int argc, char* argv[] ){
+  // TODO - Move arguments up to launch file using commandline args
 	double map_resolution = 0.1; // Meters per cell side
 	int map_width = 101; // Number of cells
 	int map_height = 101;
