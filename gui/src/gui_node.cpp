@@ -2,11 +2,12 @@
 
 #include "gui/gui.h"
 
-int main( int argc, char* argv[] ) {
+int main( int argc, char* argv[] ){
+  // TODO - Permit other robot shapes, likely with a robot model class
 	double robot_diameter = 0.3; // In meters
 	GUI gui( robot_diameter );
 	
-	ros::init(argc, argv, "gui");
+	ros::init( argc, argv, "gui" );
 	ros::NodeHandle node_handle;
 	
 	ros::Subscriber odom_sub = node_handle.subscribe( "simulator/odom", 1, &GUI::handleOdom, &gui );

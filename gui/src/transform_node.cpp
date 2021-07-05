@@ -6,23 +6,23 @@
 #include <geometry_msgs/TransformStamped.h>
 
 // Broadcasts the robot's pose as a transform.
-void odomCallback( const nav_msgs::Odometry& odom ) {
-	static tf2_ros::TransformBroadcaster br;
-	geometry_msgs::TransformStamped transformStamped;
+void odomCallback( const nav_msgs::Odometry& odom ){
+  static tf2_ros::TransformBroadcaster br;
+  geometry_msgs::TransformStamped transformStamped;
 	
-	transformStamped.header.stamp = ros::Time::now();
-	transformStamped.header.frame_id = "world";
-	transformStamped.child_frame_id = "robot";
-	transformStamped.transform.translation.x = odom.pose.pose.position.x;
-	transformStamped.transform.translation.y = odom.pose.pose.position.y;
-	transformStamped.transform.translation.z = 0.0;
-	transformStamped.transform.rotation = odom.pose.pose.orientation;
+  transformStamped.header.stamp = ros::Time::now();
+  transformStamped.header.frame_id = "world";
+  transformStamped.child_frame_id = "robot";
+  transformStamped.transform.translation.x = odom.pose.pose.position.x;
+  transformStamped.transform.translation.y = odom.pose.pose.position.y;
+  transformStamped.transform.translation.z = 0.0;
+  transformStamped.transform.rotation = odom.pose.pose.orientation;
 	
-	// It's like a publisher without a defined topic.
-	br.sendTransform(transformStamped);
+  // It's like a publisher without a defined topic.
+  br.sendTransform(transformStamped);
 }
 
-int main( int argc, char* argv[] ) {
+int main( int argc, char* argv[] ){
 	ros::init( argc, argv, "transform_name" );
 	ros::NodeHandle node_handle;
 	
