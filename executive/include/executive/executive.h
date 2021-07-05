@@ -1,7 +1,6 @@
 // Author: Benned Hedegaard
 
-#ifndef EXECUTIVE_H
-#define EXECUTIVE_H
+#pragma once
 
 #include "ros/ros.h"
 #include "geometry_msgs/Point.h"
@@ -9,34 +8,35 @@
 #include "planner/Query.h"
 
 class Executive {
+public:
 
-	public:
+  /*
+    Constructor for Exective class.
+		reached - Distance (m) within which a waypoint is considered reached.
+		replan - Distance (m) within which replanning is halted.
+	*/
+	Executive( const double& reachedArg, const double& replanArg ); // Constructor
 	
-		/*
-			Constructor for Exective class.
-			reached - Distance (m) within which a waypoint is considered reached.
-			replan - Distance (m) within which replanning is halted.
-		*/
-		Executive( const double& reached, const double& replan ); // Constructor
-		virtual ~Executive(); // Deconstructor
+  virtual ~Executive() = default; // Default deconstructor
 		
-		// Declare message handling functions for the class.
-		void handleOdom( const nav_msgs::Odometry::ConstPtr& msg );
-		void handleWaypoint( const geometry_msgs::Point::ConstPtr& msg );
-		
-		void sendQuery();
-		
-		// Declare any ROS publishers.
-		ros::Publisher query_pub; // TODO - Move publishers out of all classes for more general code
-		
-	protected:
+  // Declare message handling functions for the class.
+	void handleOdom( const nav_msgs::Odometry::ConstPtr& msg );
+	void handleWaypoint( const geometry_msgs::Point::ConstPtr& msg );
+  
+  /*
+    TODO - Document this method
+  */
+  void sendQuery();
 	
-		bool hasOdom; // Have we stored an odometry yet?
-		nav_msgs::Odometry _odom; // Store current state of robot.
-		std::vector<geometry_msgs::Point> _waypoints; // Store current list of goals.
+  ros::Publisher query_pub; // TODO - Move publishers out of all classes for more general code
 		
-		double REACHED; // Within this distance counts as reaching a waypoint.
-		double REPLAN; // Don't replan within this distance.
+protected:
+  bool hasOdom; // Have we stored an odometry yet?
+	nav_msgs::Odometry state; // Store current state of robot.
+	std::vector<geometry_msgs::Point> waypoints; // Store current list of goals.
+
+  double reached_distance; // Within this distance counts as reaching a waypoint.
+  double replan_distance; // Don't replan within this distance.
+
+private:
 };
-
-#endif /* EXECUTIVE_H */

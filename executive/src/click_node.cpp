@@ -5,24 +5,20 @@
 #include "geometry_msgs/Point.h"
 
 // Simple class to forward clicks from the GUI to executive waypoints.
-class ClickHandler {
-	
-	public: // These data members can be accessed by other classes.
-		
-		ClickHandler() {} // Constructor
-		virtual ~ClickHandler() {} // Deconstructor
-		
-		// Declare message handling functions for the class.
-		void handleClick( const geometry_msgs::PointStamped::ConstPtr& msg );
-		
-		ros::Publisher waypoint_pub;
+class ClickHandler{
+public:
+  ClickHandler() {} // Constructor
+  virtual ~ClickHandler() {} // Deconstructor
+  void handleClick( const geometry_msgs::PointStamped::ConstPtr& msg );
+
+  ros::Publisher waypoint_pub;
 };
 
-void ClickHandler::handleClick( const geometry_msgs::PointStamped::ConstPtr& msg ) {
+void ClickHandler::handleClick( const geometry_msgs::PointStamped::ConstPtr& msg ){
 	waypoint_pub.publish( msg->point );
 }
 
-int main( int argc, char* argv[] ) {	
+int main( int argc, char* argv[] ){	
 	ClickHandler click;
 
 	ros::init( argc, argv, "waypoints_node" );
