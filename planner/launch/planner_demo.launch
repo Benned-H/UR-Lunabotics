@@ -1,0 +1,6 @@
+<launch>
+	<node name="planner_node" pkg="planner" type="grid_planner_node"/>
+	<node name="planner_demo_node" pkg="planner" type="planner_demo_node"/>
+	<node name="gui_node" pkg="gui" type="gui_node"/>
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find gui)/rviz/gui.rviz"/>
+</launch>

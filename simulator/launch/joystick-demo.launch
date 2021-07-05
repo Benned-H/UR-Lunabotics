@@ -1,0 +1,6 @@
+<launch>
+	<node name="simulator_node" pkg="simulator" type="simulator_node"/>
+	<node name="joystick_to_commands" pkg="joystick" type="joystick_to_commands.py"/>
+	<node name="gui_node" pkg="gui" type="gui_node"/>
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find gui)/rviz/simulator-demo-gui.rviz"/>
+</launch>

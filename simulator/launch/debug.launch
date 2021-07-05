@@ -1,0 +1,21 @@
+<launch>
+	<node pkg="tf2_ros" type="static_transform_publisher" name="map_to_world" 
+		args="0.0 0.0 0.0 0.0 0.0 0.0 world map"/>
+		
+	<node pkg="tf2_ros" type="static_transform_publisher" name="gui_to_world" 
+		args="0.0 0.0 0.0 0.0 0.0 0.0 world gui"/>
+	
+	<node name="simulator_node" pkg="simulator" type="simulator_node"/>
+	<node name="obstacle_publisher_node" pkg="simulator" type="obstacle_publisher_node"/>
+	
+	<node name="click_node" pkg="executive" type="click_node"/>
+	<node name="executive_node" pkg="executive" type="executive_node"/>
+	<node name="planner_node" pkg="planner" type="grid_planner_node" output="screen"/>
+	<node name="pfc_node" pkg="pfc" type="pure_pursuit_node"/>
+	
+	<node name="mapper_node" pkg="mapper" type="occmapper_node"/>
+	
+	<node name="gui_node" pkg="gui" type="gui_node"/>
+	<node name="transform_node" pkg="gui" type="transform_node"/>
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find gui)/rviz/gui.rviz"/>
+</launch>

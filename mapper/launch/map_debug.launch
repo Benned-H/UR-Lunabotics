@@ -1,0 +1,34 @@
+<launch>
+	<node name="lidar_node" pkg="ydlidar_ros" type="ydlidar_node" output="screen" respawn="false">
+		<param name="port" type="string" value="/dev/ttyUSB0"/>
+		<param name="baudrate" type="int" value="128000"/>
+		<param name="frame_id" type="string" value="world"/>
+		<param name="resolution_fixed" type="bool" value="true"/>
+		<param name="auto_reconnect" type="bool" value="true"/>
+		<param name="reversion" type="bool" value="false"/>
+		<param name="angle_min" type="double" value="-180" />
+		<param name="angle_max" type="double" value="180" />
+		<param name="range_min" type="double" value="0.1" />
+		<param name="range_max" type="double" value="12.0" />
+		<param name="ignore_array" type="string" value="" />
+		<param name="frequency" type="double" value="8"/>
+		<param name="samp_rate" type="int" value="5"/>
+	</node>
+	<node pkg="tf" type="static_transform_publisher" name="base_link_to_laser4" 
+		args="0.2245 0.0 0.2 0.0 0.0 0.0 /base_footprint /laser_frame 40"/>
+
+	<node pkg="tf2_ros" type="static_transform_publisher" name="map_to_world" 
+		args="0.0 0.0 0.0 0.0 0.0 0.0 world map"/>
+	
+	<node name="simulator_node" pkg="simulator" type="simulator_node"/>
+	
+	<node name="click_node" pkg="executive" type="click_node"/>
+	<node name="executive_node" pkg="executive" type="executive_node"/>
+	<node name="planner_node" pkg="planner" type="grid_planner_node"/>
+	<node name="pfc_node" pkg="pfc" type="pure_pursuit_node"/>
+	
+	<node name="obstacle_publisher_node" pkg="simulator" type="obstacle_publisher_node"/>
+	
+	<node name="gui_node" pkg="gui" type="gui_node"/>
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find gui)/rviz/gui.rviz"/>
+</launch>
