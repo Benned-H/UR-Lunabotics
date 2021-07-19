@@ -47,7 +47,7 @@ void GUI::update() {
 
 void GUI::drawPose( const geometry_msgs::Pose& pose, double r, double g, double b ){
 	visualization_msgs::Marker c; // cylinder for robot body
-	c.header.frame_id = "/gui";
+	c.header.frame_id = "gui";
 	c.header.stamp = ros::Time::now();
 	c.ns = "gui";
 	c.id = 0;
@@ -61,7 +61,7 @@ void GUI::drawPose( const geometry_msgs::Pose& pose, double r, double g, double 
 	c.lifetime = ros::Duration(); // Never auto-deletes.
 	
 	visualization_msgs::Marker a; // arrow for robot heading
-	a.header.frame_id = "/gui";
+	a.header.frame_id = "gui";
 	a.header.stamp = ros::Time::now();
 	a.ns = "gui";
 	a.id = 1;
@@ -80,7 +80,7 @@ void GUI::drawPose( const geometry_msgs::Pose& pose, double r, double g, double 
 
 void GUI::drawPath( const planner::Path& path, double r, double g, double b ){
 	visualization_msgs::Marker p; // line strip of points
-	p.header.frame_id = "/gui";
+	p.header.frame_id = "gui";
 	p.header.stamp = ros::Time::now();
 	p.ns = "gui";
 	p.id = 2;
@@ -96,7 +96,7 @@ void GUI::drawPath( const planner::Path& path, double r, double g, double b ){
 
 void GUI::drawLookahead( const geometry_msgs::Point& point, double radius, double r, double g, double b ){
 	visualization_msgs::Marker p;
-	p.header.frame_id = "/gui";
+	p.header.frame_id = "gui";
 	p.header.stamp = ros::Time::now();
 	p.ns = "gui";
 	p.id = 3;
@@ -117,7 +117,7 @@ void GUI::drawObstacles( double r, double g, double b ){
 		visualization_msgs::Marker cylinder; // Cylinder
 		geometry_msgs::Point p = obstacles.data[i];
 		
-		cylinder.header.frame_id = "/gui";
+		cylinder.header.frame_id = "gui";
 		cylinder.header.stamp = ros::Time::now();
 		cylinder.ns = "gui";
 		cylinder.id = 100 + i; // We id the obstacles as 100 onwards.
