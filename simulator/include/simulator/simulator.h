@@ -17,6 +17,9 @@ public:
   virtual ~Simulator() = default; // Default deconstructor
 		
   // Declare message handling functions for the class.
+  /**
+    TODO - Update this bro
+  */
   void handleMotionCommand( const geometry_msgs::Twist::ConstPtr& msg );
   void handleObstacles( const simulator::Obstacles::ConstPtr& msg );
 		
