@@ -1,4 +1,7 @@
-// Author: Benned Hedegaard
+/**
+ * Implements an example ROS node executable for the UR Lunabotics team.
+ * Author: Benned Hedegaard
+ */
 
 // Include any packages or definitions needed
 // e.g. iostream allows printing, ROS allows defining the node.
@@ -57,7 +60,7 @@ int main( int argc, char* argv[] ){
 	
 	/* Option 3: Update and publish - We use a ROS timer to periodically
 	update the class' member variables and publish them after each step. */
-	double frequency = 25.0; // Desired rate of the timer in hz
+	double frequency = 25.0; // Desired rate of the timer in Hz
 	ros::Rate timer(frequency);
 	
 	// Keeps looping as long as the node is running.
@@ -65,7 +68,7 @@ int main( int argc, char* argv[] ){
     ros::spinOnce(); // Calls all waiting callbacks, i.e. handles messages.
     obj.step( 1.0 / frequency ); // Advance the class' internal simulation/belief.
     datatype_pub.publish(data); // data could be a class member variable.
-    timer.sleep(); // Waits rest of cycle to assure proper hz
+    timer.sleep(); // Waits rest of cycle to assure proper Hz
   }
 	
   // In all cases, the following exits the execution of the node:
