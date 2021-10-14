@@ -4,9 +4,9 @@
 
 int main( int argc, char* argv[] ){
   // TODO - Move arguments up to launch file using commandline args
-	double map_resolution = 0.1; // Meters per cell side
-	int map_width = 101; // Number of cells
-	int map_height = 101;
+	double map_resolution = 0.01; // Meters per cell side
+	int map_width = 689; // Number of cells
+	int map_height = 250;
 	
     // Center of each cell will align with planning grid nodes
 	geometry_msgs::Pose origin;

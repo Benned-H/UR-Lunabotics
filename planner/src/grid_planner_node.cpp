@@ -7,14 +7,14 @@ int main( int argc, char* argv[] ){
 	
 	double planner_discretization  = 0.1;
 	
-	double map_resolution = 0.1; // Meters per cell side
-	int map_width = 101; // Number of cells
-	int map_height = 101;
+	double map_resolution = 0.01; // Meters per cell side
+	int map_width = 689; // Number of cells
+	int map_height = 125;
 	
   // Center of each cell will align with planning grid nodes
   geometry_msgs::Pose origin;
-	origin.position.x = -5.05;
-	origin.position.y = -5.05;
+	origin.position.x = -6.89;
+	origin.position.y = -1.25;
 	origin.position.z = 0.0;
 	origin.orientation.x = 0.0;
 	origin.orientation.y = 0.0;
