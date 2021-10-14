@@ -22,8 +22,9 @@ public:
   */
   void handleMotionCommand( const geometry_msgs::Twist::ConstPtr& msg );
   void handleObstacles( const simulator::Obstacles::ConstPtr& msg );
-		
-  void step( const double& dt );
+  double sample( double b);	
+  void step( const double& dt, const bool& noisy );
+  
   nav_msgs::Odometry getOdometry();
   sensor_msgs::LaserScan getScan( int beams );
 		

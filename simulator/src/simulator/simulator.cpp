@@ -128,18 +128,38 @@ sensor_msgs::LaserScan Simulator::getScan( int beams ){
 	
 	return scan;
 }
-
+double Simulator::sample(double b) { //noise algorithm from Probabilistic Robotics Version
+	double sum = 0;
+	for(int i = 0;i<12;i++) {
+		double num = 2*(((double)rand() /(double)(RAND_MAX+1.0))+0.5);
+		sum += num; 
+	}
+	return b*sum/6;
+}
 // From Probabilistic Robotics Version 1 pg. 127.
-void Simulator::step( const double& dt ){
-	double v = u(0);
-	double w = u(1);
+void Simulator::step( const double& dt , const bool& noisy){
+	//a1-a6 chosen arbitrarily, given a1,a2 >> a3-a6
+	double a1 = 0.05; //translational error 1
+	double a2 = 0.05; //translational error 2
+	double a3 = 0.01; //angular error 3
+	double a4 = 0.01; //angular error 4
+	double a5 = 0.01; //additional rotational error 5
+	double a6 = 0.01; //additional rotational error 6
+	double n =0;
+	if(noisy) {
+		n = 1;
+	}
+	
+	double v = u(0) + n*sample(a1*abs(u(0))+a2*abs(u(1)));
+	double w = u(1) + n*sample(a3*abs(u(0))+a4*abs(u(1)));
+	
 	if( w == 0.0 ){ // Avoid dividing by 0.
 		w = 0.00001;
 	}
 	
 	double new_x = x(0) - (v/w)*std::sin(x(2)) + (v/w)*std::sin(x(2)+w*dt);
 	double new_y = x(1) + (v/w)*std::cos(x(2)) - (v/w)*std::cos(x(2)+w*dt);
-	double new_theta = x(2) + w*dt;
+	double new_theta = x(2) + w*dt + n*sample(a5*abs(u(0))+a6*abs(u(1)))*dt;
 	
 	x(0) = new_x;
 	x(1) = new_y;
