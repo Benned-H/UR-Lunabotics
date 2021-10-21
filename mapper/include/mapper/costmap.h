@@ -62,6 +62,8 @@ public:
    */
   double get(const int, const int);
 
+  std::string to_string() const;
+
 protected:
 private:
   /* The size (m) of the side of each cell in the costmap */
@@ -91,3 +93,5 @@ private:
         |
         -> {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
 */
+
+std::ostream &operator<<(std::ostream &os, const CostMap &map);

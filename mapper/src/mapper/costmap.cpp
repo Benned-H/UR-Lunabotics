@@ -61,9 +61,21 @@ bool CostMap::in_map(const double x, const double y) {
 }
 
 void CostMap::set(const int col, const int row, const double value) {
-	cost_vector[col * cols + row] = value;
+	cost_vector[row * rows + col] = value;
 }
 
 double CostMap::get(const int col, const int row) {
-	return cost_vector[col * cols + row];
+	return cost_vector[row * rows + col];
+}
+
+std::string CostMap::to_string() const {
+	std::string str = "";
+	for (double x : cost_vector) {
+		str += std::to_string(x) + " ";
+	}
+	return str;
+}
+
+std::ostream &operator<<(std::ostream &os, const CostMap &map) {
+	os << map.to_string();
 }
