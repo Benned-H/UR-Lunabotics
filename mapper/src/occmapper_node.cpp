@@ -10,7 +10,7 @@ int main( int argc, char* argv[] ){
 	
     // Center of each cell will align with planning grid nodes
 	geometry_msgs::Pose origin;
-	origin.position.x = -6.89;
+	origin.position.x = 0;
 	origin.position.y = -1.25;
 	origin.position.z = 0.0;
 	origin.orientation.x = 0.0;
