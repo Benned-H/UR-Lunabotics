@@ -121,7 +121,8 @@ include_directories(
 
 ## Declare a C++ library
 add_library(mapper
-	src/${PROJECT_NAME}/occmapper.cpp
+	src/mapper/occmapper.cpp
+  src/mapper/costmap.cpp
 )
 
 ## Add cmake target dependencies of the library

@@ -1,4 +1,7 @@
-// Author: Benned Hedegaard
+/**
+ * Implements the executive function for our autonomy architecture by querying the planner node
+ * Author: Benned Hedegaard
+ */
 
 #pragma once
 
@@ -10,33 +13,62 @@
 class Executive {
 public:
 
-  /*
-    Constructor for Exective class.
-		reached - Distance (m) within which a waypoint is considered reached.
-		replan - Distance (m) within which replanning is halted.
+  /**
+    Parameter constructor for Exective class
+
+    @brief Parameter constructor for Exective class
+    @param[in]    reachedArg    distance (m) within which a waypoint is considered reached
+		@param[in]    replanArg     distance (m) within which replanning is halted
+    @returns      none
 	*/
-	Executive( const double& reachedArg, const double& replanArg ); // Constructor
+	Executive( const double reachedArg, const double replanArg );
 	
-  virtual ~Executive() = default; // Default deconstructor
+  /**
+    Default deconstructor for Executive class
+  */
+  virtual ~Executive() = default;
 		
-  // Declare message handling functions for the class.
-	void handleOdom( const nav_msgs::Odometry::ConstPtr& msg );
-	void handleWaypoint( const geometry_msgs::Point::ConstPtr& msg );
+	/**
+    Message handler for nav_msgs::Odometry messages
+
+    @brief Message handler for nav_msgs::Odometry messages
+    @param[in]  msg   updated odometry providing the robot's pose
+    @returns    none
+  */
+  void handleOdom( const nav_msgs::Odometry::ConstPtr& msg );
+	
+  /**
+    Message handler for geometry_msgs::Point waypoint messages
+
+    @brief Message handler for geometry_msgs::Point waypoint messages
+    @param[in]  msg   next waypoint for the robot to move toward
+    @returns    none
+  */
+  void handleWaypoint( const geometry_msgs::Point::ConstPtr& msg );
   
-  /*
-    TODO - Document this method
+  /**
+    Method to send a query to the planner
+
+    @brief Method to send a query to the planner
+    @returns    none
   */
   void sendQuery();
-	
-  ros::Publisher query_pub; // TODO - Move publishers out of all classes for more general code
+
+  /** ros::Publisher to publish queries to the planner */
+  ros::Publisher query_pub;
 		
 protected:
-  bool hasOdom; // Have we stored an odometry yet?
-	nav_msgs::Odometry state; // Store current state of robot.
-	std::vector<geometry_msgs::Point> waypoints; // Store current list of goals.
+  /** Stored current state of the robot. Optional to indicate when we've received this */
+	std::optional< nav_msgs::Odometry > state;
 
-  double reached_distance; // Within this distance counts as reaching a waypoint.
-  double replan_distance; // Don't replan within this distance.
+  /** Current list of goals to move to next */
+	std::vector<geometry_msgs::Point> waypoints;
+
+  /** Within this distance (m) counts as reaching a waypoint */
+  double reached_distance;
+
+  /** Don't replan within this distance (m) */
+  double replan_distance;
 
 private:
 };
