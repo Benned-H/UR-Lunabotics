@@ -4,7 +4,7 @@
 int main() {
     CostMap map();
 
-    std::cout << map << std::endl;
+    std::cout << "Here is the default costmap:" << map << std::endl;
 
     return 0;
 }
