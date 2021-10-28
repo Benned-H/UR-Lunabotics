@@ -20,16 +20,16 @@ int main( int argc, char* argv[] ) {
 	
 	// TODO - Move arguments to a rosparams file instead
 	// TODO - Generating random obstacles via Poisson random forest?
-	int NUMBER_OF_OBSTACLES = 50;
+	int NUMBER_OF_OBSTACLES = 6;
 	int successes = 0;
 	while ( successes < NUMBER_OF_OBSTACLES ) {
 		geometry_msgs::Point p;
 		
 		// TODO - Move RNG to common function package
-		p.x = (rand() % 1001)*0.01 - 5.0; // Between -5.0 and 5.0
-		p.y = (rand() % 1001)*0.01 - 5.0;
-		int rng = rand() % 451; // RNG 0 to 450
-		p.z = 0.05 + rng*0.001; // Will be 0.05 to 0.5. Radius of the obstacle.
+		p.x = (rand() % 585)*0.01 + 0.50; // Between 0.50 and 6.34m
+		p.y = (rand() % 151)*0.01 - 0.75; // Between -0.75 and 0.75m
+		int rng = rand() % 21; // RNG 0 to 20
+		p.z = 0.30 + rng*0.001; // Will be 0.30 to 0.5. Radius of the obstacle.
 		
 		// Too close to the origin.
 		if ( sqrt(p.x*p.x + p.y*p.y) - p.z < 0.5 ) {
