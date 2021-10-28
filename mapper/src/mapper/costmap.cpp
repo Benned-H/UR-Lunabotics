@@ -33,9 +33,6 @@ CostMap::CostMap(const double resolutionArg, const double min_xArg,
 	cols = colsArg;
 
 	cost_vector = std::vector<double>(rows * cols);
-
-	for(int i = 0; i < rows * cols; i++)
-		cost_vector.emplace_back(0.0); 
 	//can remodify if you want to pass in arguments for these values in advanced
 }
 
@@ -54,18 +51,22 @@ int CostMap::point_to_index(const double x, const double y) {
 	return rows * y_to_row(y) + x_to_col(x);
 }
 
+int CostMap::length() {
+	return cost_vector.size();
+}
+
 // Returns if the given (x,y) point is in the map's range.
 bool CostMap::in_map(const double x, const double y) {
 	return min_x <= x && x <= min_x + cols * resolution 
 		&& min_y <= y && y <= min_y + rows * resolution;
 }
 
-void CostMap::set(const int col, const int row, const double value) {
-	cost_vector[row * rows + col] = value;
+void CostMap::set(const int row, const int col, const double value) {
+	cost_vector[row * cols + col] = value;
 }
 
-double CostMap::get(const int col, const int row) {
-	return cost_vector[row * rows + col];
+double CostMap::get(const int row, const int col) {
+	return cost_vector[row * cols + col];
 }
 
 std::string CostMap::to_string() const {
@@ -77,5 +78,5 @@ std::string CostMap::to_string() const {
 }
 
 std::ostream &operator<<(std::ostream &os, const CostMap &map) {
-	os << map.to_string();
+	return os << map.to_string();
 }

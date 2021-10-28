@@ -50,6 +50,8 @@ public:
    */ 
   int point_to_index(const double, const double);
 
+  int length();
+
   bool in_map(const double x, const double);
 
   /**
