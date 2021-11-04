@@ -1,7 +1,10 @@
 // Publishes a specified number of simulated cylindrical obstacles.
 // Author: Benned Hedegaard
+// Rachael He, Fran Daszak, Ellen Meyer
 
 #include <stdlib.h>
+#include <cmath> //sqrt, pow
+using namespace std;
 
 #include "ros/ros.h"
 #include "simulator/Obstacles.h"
@@ -37,12 +40,14 @@ int main( int argc, char* argv[] ) {
 		} else {
 			bool skip = false;
 			for ( int i = 0; i < msg.data.size(); i++ ) { // Check unique.
-				if ( msg.data[i].x == p.x && msg.data[i].y == p.y ) {
+				double ix = msg.data[i].x;
+				double iy = msg.data[i].y;
+				double iz = msg.data[i].z;
+				if (sqrt(pow(ix-p.x,2)+pow(iy-p.y,2)) < iz + p.z) {
 					skip = true;
 					break;
 				}
 			}
-			
 			if (skip) continue;
 			successes++;
 			msg.data.push_back(p);
