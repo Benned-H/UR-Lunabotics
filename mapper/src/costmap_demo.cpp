@@ -28,27 +28,46 @@ int main() {
     do {
         cout << "ENTER ONE OF THE FOLLOWING:\n" <<
         "G: GET" << endl <<
+        "I: POINT_TO_INDEX" << endl <<
         "L: LENGTH" << endl <<
+        "M: IN_MAP" << endl <<
         "P: PRINT" << endl <<
         "S: SET" << endl <<
+        "X: X_TO_COL" << endl <<
+        "Y: Y_TO_ROW" << endl <<
         "0: QUIT" << std::endl;
 
         cin >> choice;
 
         switch(std::toupper(choice)) {
             case 'G': {
-                int row, col;
+                double x, y;
 
-                cout << "\tENTER A ROW\n\t";
+                cout << "\tENTER A VALUE FOR X\n\t";
 
-                cin >> row;
+                cin >> x;
 
-                cout << "\n\tENTER A COLUMN\n\t";
+                cout << "\n\tENTER A VALUE FOR Y\n\t";
 
-                cin >> col;
+                cin >> y;
 
+                cout << "\tVALUE OF (" << x << ", " << y << "): " << map.get(x, y) << endl;
 
-                cout << "\tVALUE OF (" << row << ", " << col << "): " << map.get(row, col) << endl;
+                break;
+            }
+
+            case 'I': {
+                double x, y;
+
+                cout << "\tENTER A VALUE FOR X\n\t";
+
+                cin >> x;
+
+                cout << "\n\tENTER A VALUE FOR Y\n\t";
+
+                cin >> y;
+
+                cout << "\n\tINDEX OF (" << x << ", " << y << "): " << map.point_to_index(x, y) << endl;
 
                 break;
             }
@@ -59,29 +78,69 @@ int main() {
                 break;
             }
 
+            case 'M': {
+                double x, y;
+
+                cout << "\tENTER A VALUE FOR X\n\t";
+
+                cin >> x;
+
+                cout << "\n\tENTER A VALUE FOR Y\n\t";
+
+                cin >> y;
+
+                cout << "\n\t(" << x << ", " << y << ") IS " << (!map.in_map(x, y) ? "NOT " : "") << "IN THE MAP" << endl;
+
+                break;
+            }
+
             case 'P': {
-                cout << "\t" << map << endl;
+                cout << map << endl;
 
                 break;
             }
 
             case 'S': {
-                int row, col;
+                double x, y;
                 double value;
 
-                cout << "\tENTER A ROW\n\t";
+                cout << "\tENTER A VALUE FOR X\n\t";
 
-                cin >> row;
+                cin >> x;
 
-                cout << "\n\tENTER A COLUMN\n\t";
+                cout << "\n\tENTER A VALUE FOR Y\n\t";
 
-                cin >> col;
+                cin >> y;
 
                 cout << "\n\tENTER A VALUE\n\t";
 
                 cin >> value;
 
-                map.set(row, col, value);
+                map.set(x, y, value);
+
+                break;
+            }
+
+            case 'X': {
+                double x;
+
+                cout << "\n\tENTER A VALUE FOR X\n\t";
+
+                cin >> x;
+
+                cout << "\tX TO COL: " << map.x_to_col(x) << endl;
+
+                break;
+            }
+
+            case 'Y': {
+                double y;
+
+                cout << "\n\tENTER A VALUE FOR Y\n\t";
+
+                cin >> y;
+
+                cout << "\tX TO ROW: " << map.y_to_row(y) << endl;
 
                 break;
             }

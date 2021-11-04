@@ -1,12 +1,10 @@
 // Author: Benned Hedegaard
 
 #include <cmath>
-#include <set>
 #include <iostream>
 #include <vector>
 
 #include "mapper/costmap.h"
-
 
 /*
 	OccMapper class constructor
@@ -48,7 +46,7 @@ int CostMap::y_to_row(const double y) {
 
 // Returns the index in the grid of the given (x,y) point.
 int CostMap::point_to_index(const double x, const double y) {
-	return rows * y_to_row(y) + x_to_col(x);
+	return cols * y_to_row(y) + x_to_col(x);
 }
 
 int CostMap::length() {
@@ -61,19 +59,25 @@ bool CostMap::in_map(const double x, const double y) {
 		&& min_y <= y && y <= min_y + rows * resolution;
 }
 
-void CostMap::set(const int row, const int col, const double value) {
-	cost_vector[row * cols + col] = value;
+void CostMap::set(const double x, const double y, const double value) {
+	cost_vector[y_to_row(y) * cols + x_to_col(x)] = value;
 }
 
-double CostMap::get(const int row, const int col) {
-	return cost_vector[row * cols + col];
+double CostMap::get(const double x, const double y) {
+	return cost_vector[y_to_row(y) * cols + x_to_col(x)];
 }
 
 std::string CostMap::to_string() const {
 	std::string str = "";
-	for (double x : cost_vector) {
-		str += std::to_string(x) + " ";
+	for(int i = 0; i < rows; i++) {
+		str += "\t";
+
+		for(int j = 0; j < cols; j++) 
+			str += std::to_string(cost_vector[i * cols + j]) + " ";
+
+		str += "\n";
 	}
+
 	return str;
 }
 

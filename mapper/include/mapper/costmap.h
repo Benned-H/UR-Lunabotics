@@ -2,7 +2,9 @@
 
 #pragma once
 
+#include <string>
 #include <vector>
+#include <iostream>
 
 class CostMap {
 // TODO - Create separate OccupancyGrid class to clean up which functions are where
@@ -57,12 +59,12 @@ public:
   /**
    * Set TODO
    */
-  void set(const int, const int, const double);
+  void set(const double, const double, const double);
 
   /**
    * Get TODO
    */
-  double get(const int, const int);
+  double get(const double, const double);
 
   std::string to_string() const;
 
