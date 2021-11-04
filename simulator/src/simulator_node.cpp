@@ -27,7 +27,7 @@ int main( int argc, char* argv[] ){
 	// Keeps looping as long as the node is running.
 	while( ros::ok() ){
 		ros::spinOnce(); // Calls all waiting callbacks, i.e. handles messages.
-		sim.step( 1.0 / frequency , true); // Advance the class' simulation/belief.
+		sim.step( 1.0 / frequency , false); // Advance the class' simulation/belief. set to true to turn on noisy data
 		nsim.step( 1.0 / frequency , false); // Advance the class' simulation/belief.
 		//sim and nsim are inverted. sim is the noisy data rn to change back set the bool to false
 		//simnoisy.step(1.0/frequency,true);
