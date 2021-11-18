@@ -64,11 +64,11 @@ sensor_msgs::LaserScan Simulator::getScan( int beams ){
 		beams = 4;
 	}
 	
-	scan.angle_increment = 2.0*M_PI / ( (double) beams );
-	scan.angle_min = -M_PI; // Start at -Pi and increment to Pi.
+	scan.angle_increment = 65*M_PI/180 / ( (double) beams ); //was 2*M_PI/ ... beams
+	scan.angle_min = -32.5*M_PI/180; // Start at -Pi and increment to Pi.
 	scan.angle_max = scan.angle_min + beams*scan.angle_increment;
 	scan.range_min = 0.0;
-	scan.range_max = 10.0;
+	scan.range_max = 2.0;
 	
 	double x1 = x(0);
 	double y1 = x(1);
@@ -79,7 +79,8 @@ sensor_msgs::LaserScan Simulator::getScan( int beams ){
 		if( obstacles.data.size() == 0 ){
 			scan.ranges.push_back( scan.range_max );
 		} else {
-			double closest = scan.range_max;
+			//double closest = scan.range_max;
+			double closest = 10.0; //some constant well outside the arena
 			double x2 = x1 + scan.range_max*cos(global_angle); // End of scan is (x2, y2)
 			double y2 = y1 + scan.range_max*sin(global_angle);
 			double a = (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2);
