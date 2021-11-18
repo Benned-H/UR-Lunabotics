@@ -1,5 +1,3 @@
-// Author: Benned Hedegaard
-
 #pragma once
 
 #include <string>
@@ -88,7 +86,7 @@ private:
   std::vector<double> cost_vector;
 };
 /* Ex:           col#
-/*      {     0  1  2  3
+        {     0  1  2  3
           0  {1, 2, 3, 4},
     row#  1  {5, 6, 7, 8}
           2  {9, 10, 11, 12}

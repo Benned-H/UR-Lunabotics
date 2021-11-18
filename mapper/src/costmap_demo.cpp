@@ -4,13 +4,14 @@
 
 using namespace std;
 
-int main() {
+int main( int argc, char* argv[] ){
+
     double resolution;
     int rows, cols;
 
     char choice;
 
-    cout << "ENTER A RESOLUTION" << endl;
+    std::cout << "ENTER A RESOLUTION" << std::endl;
 
     cin >> resolution;
 
