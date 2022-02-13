@@ -1,0 +1,31 @@
+<sdf version="1.6">
+  <world name="default">
+    
+    <!-- Light Source Model -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <!-- Arena Model -->
+    <model name="arena">
+      <include>
+        <static>true</static>
+        <uri>model://lunabotics_arena</uri>
+        <pose> 0 0 0 0 0 0</pose>
+      </include>
+    </model>
+
+    <!-- Terrain Model -->
+    <model name="terrain">
+      <include>
+        <static>true</static>
+        <uri>model://mining_area_heightmap</uri>
+        <pose> 0 0 0 0 0 0</pose>
+      </include>
+    </model>
+
+    <!-- include> <uri>model://apollo15_landing_site_1000x1000</uri> </include -->
+    
+    <!-- include> <uri>model://ground_plane</uri> </include -->
+  </world>
+</sdf>
