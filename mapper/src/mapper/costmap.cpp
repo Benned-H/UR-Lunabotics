@@ -55,8 +55,7 @@ int CostMap::length() {
 
 // Returns if the given (x,y) point is in the map's range.
 bool CostMap::in_map(const double x, const double y) {
-	return min_x <= x && x <= min_x + cols * resolution 
-		&& min_y <= y && y <= min_y + rows * resolution;
+	return min_x <= x && x <= min_x + cols * resolution && min_y <= y && y <= min_y + rows * resolution;
 }
 
 void CostMap::set(const double x, const double y, const double value) {

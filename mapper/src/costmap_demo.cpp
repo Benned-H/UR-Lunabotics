@@ -5,13 +5,13 @@
 using namespace std;
 
 int main( int argc, char* argv[] ){
-
+    
     double resolution;
     int rows, cols;
 
     char choice;
 
-    std::cout << "ENTER A RESOLUTION" << std::endl;
+    cout << "ENTER A RESOLUTION" << endl;
 
     cin >> resolution;
 
@@ -23,9 +23,8 @@ int main( int argc, char* argv[] ){
 
     cin >> cols;
 
-
     CostMap map(resolution, 0, 0, rows, cols);
-
+/*
     do {
         cout << "ENTER ONE OF THE FOLLOWING:\n" <<
         "G: GET" << endl <<
@@ -155,7 +154,7 @@ int main( int argc, char* argv[] ){
         cout << endl;
 
     } while(choice != '0');
-
+*/    
     cout << "PROGRAM TERMINATED" << endl;
 
     return 0;

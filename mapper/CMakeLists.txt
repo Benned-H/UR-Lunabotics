@@ -135,7 +135,7 @@ add_executable(occmapper_node src/occmapper_node.cpp)
 add_dependencies(occmapper_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(occmapper_node ${catkin_LIBRARIES} mapper)
 
-add_executable(mapper_costmap_demo src/occmapper_node.cpp)
+add_executable(mapper_costmap_demo src/costmap_demo.cpp)
 add_dependencies(mapper_costmap_demo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(mapper_costmap_demo ${catkin_LIBRARIES} mapper)
 
