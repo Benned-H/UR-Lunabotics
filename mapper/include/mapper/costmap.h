@@ -23,7 +23,7 @@ private:
   /* Number of columns in the costmap */
   unsigned int cols;
 
-  std::vector<double> cost_vector;
+  std::vector<uint8_t> cost_vector;
 
 public:
   /**
@@ -69,9 +69,9 @@ public:
 
   bool in_map(const double x, const double y) const;
 
-  void set(const double x, const double y, const double value);
+  void set(const double x, const double y, const uint8_t value);
 
-  double get(const double x, const double y) const;
+  uint8_t get(const double x, const double y) const;
 
   std::string to_string () const;
 

@@ -4,7 +4,7 @@
 CostMap::CostMap (const double resolutionArg, const double min_xArg,
                   const double min_yArg, const unsigned int rowsArg,
                   const unsigned int colsArg) 
-                  : resolution{resolutionArg}, min_x{min_xArg}, min_y{min_yArg}, rows{rowsArg},cols{colsArg}, cost_vector{std::vector<double>(cols * rows, 0)}
+                  : resolution{resolutionArg}, min_x{min_xArg}, min_y{min_yArg}, rows{rowsArg},cols{colsArg}, cost_vector{std::vector<uint8_t>(cols * rows, 0)}
 {}
 
 // Returns the map's column index for the given x coordinate.
@@ -32,11 +32,11 @@ bool CostMap::in_map(const double x, const double y) const {
 		&& min_y <= y && y <= min_y + rows * resolution;
 }
 
-void CostMap::set(const double x, const double y, const double value) {
+void CostMap::set(const double x, const double y, const uint8_t value) {
 	cost_vector[y_to_row(y) * cols + x_to_col(x)] = value;
 }
 
-double CostMap::get(const double x, const double y) const {
+uint8_t CostMap::get(const double x, const double y) const {
 	return cost_vector[y_to_row(y) * cols + x_to_col(x)];
 }
 
