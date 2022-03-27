@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<sdf version="1.0">
+  <model name="NASA Lunabotics 2022 Competition Arena">
+    <pose>0 0 0  0 0 0</pose>
+    <static>true</static>
+    <link name="body">
+      <collision name="collision">
+        <geometry>
+          <mesh><uri>model://lunabotics_arena/meshes/lunabotics_arena.stl</uri></mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh><uri>model://lunabotics_arena/meshes/lunabotics_arena.stl</uri></mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>
