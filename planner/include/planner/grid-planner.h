@@ -11,6 +11,7 @@
 #include "geometry_msgs/Point.h"
 #include "planner/Path.h"
 #include "planner/Query.h"
+#include "planner/Motion.h"
 #include "std_msgs/UInt32.h"
 #include "mapper/occmapper.h"
 
@@ -28,7 +29,8 @@ public:
   ros::Publisher path_pub;
   ros::Publisher open_list_size_pub;
   ros::Publisher closed_list_size_pub;
-		
+  ros::Publisher motion_pub;
+
 protected:
 	
   std::vector<geometry_msgs::Point> aStar( const geometry_msgs::Point& start, const geometry_msgs::Point& goal );

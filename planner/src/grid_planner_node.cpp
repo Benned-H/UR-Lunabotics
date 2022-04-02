@@ -41,6 +41,7 @@ int main( int argc, char* argv[] ){
 	planner.path_pub = node_handle.advertise<planner::Path>( "planner/path", 1, true );
 	planner.open_list_size_pub = node_handle.advertise<std_msgs::UInt32>( "planner/open_list_size", 1, true );
 	planner.closed_list_size_pub = node_handle.advertise<std_msgs::UInt32>( "planner/closed_list_size", 1, true );
+	planner.motion_pub = node_handle.advertise<planner::Motion>( "planner/motion", 1, true );
 	
 	sleep(1); // Wait 1 second; gives time for ROS connections to be made.
 	

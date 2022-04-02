@@ -53,6 +53,7 @@ add_message_files(
 	FILES
 	Query.msg
 	Path.msg
+	Motion.msg
 )
 
 ## Generate services in the 'srv' folder
