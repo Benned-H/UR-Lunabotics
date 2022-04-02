@@ -8,9 +8,10 @@ project(simulator)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED
-	roscpp
-	geometry_msgs
-	nav_msgs
+  roscpp
+  message_generation
+  geometry_msgs
+  nav_msgs
 )
 
 ## System dependencies are found with CMake's conventions
