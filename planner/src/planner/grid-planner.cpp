@@ -1,6 +1,7 @@
 // Author: Benned Hedegaard
 
 #include <cmath>
+#include <queue>
 
 #include "planner/grid-planner.h"
 
@@ -27,12 +28,13 @@ double euclidean( const double& x1, const double& y1, const double& x2, const do
 // Computes real-world distance between discretized integer points.
 // TODO - Common package
 double discrete_euclidean( const int& x1, const int& y1, const int& x2, const int& y2, const int& d ){
-	return d * sqrt( (double)((x1-x2)*(x1-x2)) + (double)((y1-y2)*(y1-y2)) );
+	return d * std::sqrt( (double)((x1-x2)*(x1-x2)) + (double)((y1-y2)*(y1-y2)) );
 }
 
-// Sorts nodes in ascending order by their f value.
+// Sorts nodes in descending order by their f value.
+// NOTE - change to locate static lambda?
 bool compNodes( std::shared_ptr<Node>& n1, std::shared_ptr<Node>& n2 ){
-	return ( n1->f < n2->f );
+	return ( n1->f > n2->f );
 }
 
 // Generates 8-connected neighbors of given Node.
@@ -54,20 +56,20 @@ std::vector< std::shared_ptr<Node> > getNeighbors( std::shared_ptr<Node>& curr )
 // Runs A* on a grid with the stored discretization.
 std::vector<geometry_msgs::Point> GridPlanner::aStar( const geometry_msgs::Point& start, const geometry_msgs::Point& goal ) {
   // First create the open and closed lists.
-  std::vector< std::shared_ptr<Node> > open_list; // TODO - Better data structure (e.g. minheap) for open list!
+  std::priority_queue< std::shared_ptr<Node>, std::vector<std::shared_ptr<Node>>, decltype(&compNodes) > open_list{compNodes}; // TODO - Better data structure (e.g. minheap) for open list! // EDIT: changed vector to priority_queue, using compNodes as comparator so this is min-heap
   std::vector< std::shared_ptr<Node> > closed_list;
 
 	// Start from the closest on-grid point.
 	std::shared_ptr<Node> s0 = std::make_shared<Node>( std::round(start.x / DISCRETIZATION), std::round(start.y / DISCRETIZATION) );
 	s0->g = 0.0;
 	s0->f = euclidean( s0->x, s0->y, goal.x, goal.y );
-	open_list.push_back( s0 );
+	open_list.push( s0 );
 	
 	std_msgs::UInt32 open_list_size; // For debugging purposes.
 	std_msgs::UInt32 closed_list_size;
 	
 	// Main loop as long as the open list contains nodes.
-	while( open_list.size() > 0 ){
+	while( !open_list.empty() ){
 	
     // Publish open/closed list sizes
     open_list_size.data = open_list.size();
@@ -76,8 +78,8 @@ std::vector<geometry_msgs::Point> GridPlanner::aStar( const geometry_msgs::Point
     closed_list_size_pub.publish( closed_list_size );
 	
 		// Pop best node, put into closed list.
-		std::shared_ptr<Node> curr = open_list.front();
-		open_list.erase( open_list.begin() );
+		std::shared_ptr<Node> curr = open_list.top();
+		open_list.pop();
 		closed_list.push_back( curr );
 
 		// If we've almost reached the goal, extract and return the path.
@@ -133,9 +135,8 @@ std::vector<geometry_msgs::Point> GridPlanner::aStar( const geometry_msgs::Point
 			new_node->prev = curr;
 
 			// Push to the open list.
-			open_list.push_back( new_node );
+			open_list.push( new_node );
 		}
-		sort( open_list.begin(), open_list.end(), compNodes );
 	} // end while
 
 	// If the main while loop failed, we've lost. Return empty list.
