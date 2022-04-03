@@ -11,7 +11,7 @@
 #include "geometry_msgs/Point.h"
 #include "planner/Path.h"
 #include "planner/Query.h"
-#include "planner/Motion.h"
+#include "planner/MotionCommand.h" // TODO - use control's MotionCommand message instead
 #include "std_msgs/UInt32.h"
 #include "mapper/occmapper.h"
 
