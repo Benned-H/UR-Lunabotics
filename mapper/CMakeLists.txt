@@ -121,6 +121,7 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 add_library(${PROJECT_NAME}
   src/mapper/occmapper.cpp
   src/mapper/costmap.cpp
+  src/mapper/occupancygrid.cpp
 )
 
 ## Add cmake target dependencies of the library

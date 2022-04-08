@@ -28,7 +28,7 @@ int main( int argc, char* argv[] ){
 	double p_free = 0.05; // Probability a cell is occupied given laser passes through it
 	double p_occ = 0.95; // Probability a cell is occupied given laser hits in it
 	
-  OccMapper mapper( map_resolution, map_width, map_height, origin, obstacle_width, threshold, p0, p_free, p_occ );
+  OccupancyGrid mapper( map_resolution, map_width, map_height, origin, obstacle_width, threshold, p0, p_free, p_occ );
   GridPlanner planner( planner_discretization, mapper ); // TODO - Obviously should only pass a CostMap
 	
 	ros::init( argc, argv, "planner_node" );

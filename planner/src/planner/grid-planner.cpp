@@ -4,7 +4,7 @@
 
 #include "planner/grid-planner.h"
 
-GridPlanner::GridPlanner( const double& discretizationArg, const OccMapper& mapArg ) :
+GridPlanner::GridPlanner( const double& discretizationArg, const OccupancyGrid& mapArg ) :
   DISCRETIZATION( discretizationArg ), cost_map( mapArg ) {
 
 }
@@ -16,7 +16,7 @@ void GridPlanner::handleQuery( const planner::Query::ConstPtr& msg ){
 }
 
 void GridPlanner::handleMap( const nav_msgs::OccupancyGrid::ConstPtr& msg ){
-    cost_map.map = *msg;
+    cost_map.set_map(*msg);
 }
 
 // TODO - Common package/file

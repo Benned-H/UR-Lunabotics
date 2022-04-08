@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include "nav_msgs/OccupancyGrid.h"
 
 
 class CostMap
@@ -23,20 +24,15 @@ private:
   /* Number of columns in the costmap */
   unsigned int cols;
 
-  std::vector<uint8_t> cost_vector;
-
 public:
   /**
-   * OccMapper class constructor
-   * TODO - Redo this documentation using Doxygen
-
-   * resolutionArg - Resolution (m) of the cost map
-   * mapWidthArg - Width (number of cells) of the cost map
-   * mapHeightArg - Height (number of cells) of the cost map
-   * origin - Origin of the cost map
-   * obstacleWidthArg - Presumed width (m) of a detected obstacle
-   * thresholdArg - Threshold of occupancy over which a cell is deemed occupied
-   * p0, p_free, p_occ - Probability parameters of the occupancy grid mapping algorithm
+   * @brief CostMap class constructor
+   * 
+   * @param resolutionArg The size (m) of the side of each cell
+   * @param min_xArg Minimum x coordinate
+   * @param min_yArg Minimum y coordinate
+   * @param rowsArg Number of rows 
+   * @param colsArg Number of columns
    */
   CostMap (const double resolutionArg, const double min_xArg,
               const double min_yArg, const unsigned int rowsArg,
@@ -61,20 +57,28 @@ public:
   int y_to_row(const double y) const;
 
   /**
-   * TODO
-   */ 
+   * @brief Returns the index in the grid of the given (x,y) point.
+   */
   int point_to_index(const double x, const double y) const;
 
+  /**
+   * @brief Returns the size of this costmap
+   */
   int length() const;
 
+  /**
+   * @brief Returns if the given (x,y) point is in the map's range.
+   */
   bool in_map(const double x, const double y) const;
 
   void set(const double x, const double y, const uint8_t value);
 
-  uint8_t get(const double x, const double y) const;
+  int8_t get(const double x, const double y) const;
 
   std::string to_string () const;
 
+
+  std::vector<int8_t> cost_vector;
 };
 
 std::ostream &operator<< (std::ostream &os, const CostMap &map);

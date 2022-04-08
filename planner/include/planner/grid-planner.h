@@ -12,12 +12,12 @@
 #include "planner/Path.h"
 #include "planner/Query.h"
 #include "std_msgs/UInt32.h"
-#include "mapper/occmapper.h"
+#include "mapper/occupancygrid.h"
 
 class GridPlanner{
 public:
 
-  GridPlanner( const double& discretization, const OccMapper& mapArg );
+  GridPlanner( const double& discretization, const OccupancyGrid& mapArg );
   virtual ~GridPlanner() = default; // Default deconstructor
 
   // Declare message handling functions for the class.
@@ -32,7 +32,7 @@ public:
 protected:
 	
   std::vector<geometry_msgs::Point> aStar( const geometry_msgs::Point& start, const geometry_msgs::Point& goal );
-  OccMapper cost_map; // TODO - Obviously the wrong datatype for this! Create CostMap in mapper package
+  OccupancyGrid cost_map; // TODO - Obviously the wrong datatype for this! Create CostMap in mapper package // Roy: fucntion wise, since occupied() method is used, changed datatype to the new OccupancyGrid instead of CostMap
 		
   double DISCRETIZATION;
 };
