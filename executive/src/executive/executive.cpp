@@ -1,6 +1,8 @@
-// Author: Benned Hedegaard
+// Author: Benned Hedegaard, Francesca Daszak, Riya Sharma
 
 #include <cmath>
+#include <chrono>
+#include <ctime>
 #include "executive/executive.h"
 
 /*
@@ -10,62 +12,62 @@
 */
 Executive::Executive( const double& reachedArg, const double& replanArg ) :
     reached_distance( reachedArg ), replan_distance( replanArg ), hasOdom( false ){}
-
-
+  
+  time_t time;
 	State curr = Initialize;
 
 // TODO - Move to a common package instead
 double euclidean( double x1, double y1, double x2, double y2 ){
-	return std::sqrt( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) );
+	return std::sqrt( (1-x2)*(x1-x2) + (y1-y2)*(y1-y2) );
 }
 
-// Steps the state machine forward
-void Executive::step(){
-	switch(curr){
+// Stores current function of state machine
+void Executive::step(time){
+  
+  switch(curr){
 			case Initialize:
 				//returns Localize, ManualControl, or Terminate
-				curr = Initialize();	
+				Initialize();	
 				break;
 			case ManualControl:
 				//returns Terminate
-				curr = ManualControl();
+				ManualControl();
 				break;
 			case Localize:
 				//returns ManualControl or GoToMine
-				curr = Localize();
+				Localize();
 				break;
 			case GoToMine:
-				curr = GoToMine();
+				GoToMine();
 				break;
 			case SetupMine:
-				//code here
+				SetupMine();
 				break;
 			case Mine:
-				//code here
+				Mine();
 				break;
-			case SetupMine:
-				//code here
-        break;
-			case Mine:
-				//code here
-        break;
 			case SetupDeposit:
-				//code here
-                	        break;
+				SetupDeposit();
+        break;
 			case Deposit:
-				//code here
-                	        break;
+				Deposit();
+        break;
 			case Terminate:
-				//code here
-				run = false;
-                	        break;
+				Terminate();
+        break;
 		}
 	}
 
+//Change the state
+void Executive::change(next){
+  curr = next;
+  time0 = currentTime;
+
 }
 
+
 State Executive::Initialize(){
-	//bool are motors connected?
+  //bool are motors connected?
 	//bool is camera connected?
 	//bool is telemetry signal working?
 	// if motors connected, camera connected
@@ -164,3 +166,4 @@ void Executive::sendQuery(){
 	
 	query_pub.publish(q);
 }
+

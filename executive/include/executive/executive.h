@@ -10,6 +10,9 @@
 class Executive {
 public:
 
+//Create an enum to track states. 
+enum State{Initialize, ManualControl, Localize, GoToMine, SetupMine, Mine, SetupDeposit, Deposit, Terminate}; 
+
   /*
     Constructor for Exective class.
 		reached - Distance (m) within which a waypoint is considered reached.
@@ -37,6 +40,11 @@ protected:
 
   double reached_distance; // Within this distance counts as reaching a waypoint.
   double replan_distance; // Don't replan within this distance.
+
+  /* Current state of the state machine */
+  State curr;
+
+  //make variables for duration for each state
 
 private:
 };
