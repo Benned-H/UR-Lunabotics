@@ -11,31 +11,31 @@
 Executive::Executive( const double& reachedArg, const double& replanArg ) :
     reached_distance( reachedArg ), replan_distance( replanArg ), hasOdom( false ){}
 
-//Create an enum to track states.
-enum State{Initialize, ManualControl, Localize, GoToMine, SetupMine, Mine, SetupDeposit, Deposit, Terminate};
+
+	State curr = Initialize;
 
 // TODO - Move to a common package instead
 double euclidean( double x1, double y1, double x2, double y2 ){
 	return std::sqrt( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) );
 }
 
-void Executive::stateMachine(){
-	State curr = Initialize;
-	bool run = true;
-	while(run){
-		switch(curr){
+// Steps the state machine forward
+void Executive::step(){
+	switch(curr){
 			case Initialize:
 				//returns Localize, ManualControl, or Terminate
 				curr = Initialize();	
 				break;
 			case ManualControl:
-				//code here
+				//returns Terminate
+				curr = ManualControl();
 				break;
 			case Localize:
-				//code here
+				//returns ManualControl or GoToMine
+				curr = Localize();
 				break;
 			case GoToMine:
-				//code here
+				curr = GoToMine();
 				break;
 			case SetupMine:
 				//code here
@@ -45,10 +45,10 @@ void Executive::stateMachine(){
 				break;
 			case SetupMine:
 				//code here
-                	        break;
+        break;
 			case Mine:
 				//code here
-                	        break;
+        break;
 			case SetupDeposit:
 				//code here
                 	        break;
@@ -74,6 +74,47 @@ State Executive::Initialize(){
 	//else if motors connected
 		//check telemetry - if works then return ManualControl
 }
+
+State Executive::Localize(){
+	//bool rotate = true;
+	//while (rotate OR rotated for x seconds?)
+		//rotate?
+		//build costmap???
+		//if (signal for target found), return GoToMine;
+		//if (rotated for x seconds), return ManualControl;
+	//			
+//To find the rotation rate of the robot, turn another 360º, count until we locate the target beacon again, then use this during the rest of planning.
+}
+
+State Executive::GoToMine(){
+	//send planning query to nearest point in mining zone
+	//target obstacle free and unmined mining lane
+	//localization continuously integrates obstacle information into costmap, actions generated to move towards waypoint
+	//if old waypoint is on high cost region, consider sending new planning query
+	//if free space or pose estimate is in mining zone, return SetupMine	
+
+}
+
+State Executive::SetupMine(){
+	
+	//turn around 180 deg and locate target beacon
+		// rotate until target beacon found, insert some timeout 
+	//once located check distnace x >4.39 m from target (add cushioning for accuracy?
+
+
+
+[Instance] The robot will turn around and locate the target beacon.
+[If, target beacon is located]
+The robot will reduce uncertainty about its distance far from the collector bin.
+The front end of the robot must have crossed into the Mining Arena, which begins 4.39 m from the starting zone.
+[If, robot x < 4.39 m] Move into the Mining Zone.
+Transition to the Mine state once the robot is properly within the Mining Zone and in an unmined lane (based on previously mined lanes).
+	
+
+}
+
+
+
 
 
 void Executive::handleOdom( const nav_msgs::Odometry::ConstPtr& msg ){

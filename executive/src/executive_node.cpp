@@ -11,7 +11,8 @@ int main( int argc, char* argv[] ){
 	
 	ros::init( argc, argv, "executive_node" );
 	ros::NodeHandle node_handle;
-
+	
+	//Set up subscribers
 	ros::Subscriber odom_sub = node_handle.subscribe( "simulator/odom", 1, &Executive::handleOdom, &exec );
 	ros::Subscriber waypoint_sub = node_handle.subscribe( "executive/waypoint", 1, &Executive::handleWaypoint, &exec );
 	
