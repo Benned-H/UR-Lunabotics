@@ -21,7 +21,18 @@ int main( int argc, char* argv[] ){
 
 	sleep(1); // Wait 1 second; gives time for ROS connections to be made.
 	
-	ros::spin();
+	while( ros::ok() ){
+    ros::spinOnce(); // Calls all waiting callbacks, i.e. handles messages.
+    sim.step( 1.0 / frequency ); // Advance the class' state belief.
+    //call specific function from executive.cpp
+    //set the timer to the current time
+    timer.sleep(); // Waits rest of cycle to assure proper hz
+  }
+
+
+  }
+
+  ros::spin();
 	
 	return 0;
 }
